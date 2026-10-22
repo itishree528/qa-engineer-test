@@ -103,10 +103,21 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: "Something went wrong!" });
 });
 
-httpServer.listen(PORT, () => {
-  console.log(`✅ EU Pay QA Test API running on http://localhost:${PORT}`);
-  console.log(`📖 Visit http://localhost:${PORT} for available endpoints`);
-  console.log(`🔌 Socket.IO ready for real-time updates`);
-});
+import { fileURLToPath } from "url";
+import { resolve } from "path";
 
+// Start listening only when executed directly (e.g. npm start or node src/server.js)
+const isMainModule =
+  Boolean(process.argv[1]) &&
+  resolve(process.argv[1]) === resolve(fileURLToPath(import.meta.url));
+
+if (isMainModule) {
+  httpServer.listen(PORT, () => {
+    console.log(`✅ EU Pay QA Test API running on http://localhost:${PORT}`);
+    console.log(`📖 Visit http://localhost:${PORT} for available endpoints`);
+    console.log(`🔌 Socket.IO ready for real-time updates`);
+  });
+}
+
+export { httpServer, io };
 export default app;

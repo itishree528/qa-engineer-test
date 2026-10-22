@@ -12,11 +12,18 @@ export const db = {
 
 // Seed some test data
 export function initDatabase() {
+  db.users = [];
+  db.payments = [];
+  db.sessions = [];
+  db.table_orders = [];
+  db.invoices = [];
+  db.processed_webhooks = [];
+
   // Create a test merchant
   db.users.push({
     id: "1",
     email: "merchant@test.com",
-    password: "$2a$10$8Z3KxGXvGqJQZ.ZF9Z3KxGXvGqJQZ.ZF9Z3KxGXvGqJQZ.ZF9", // password: Test123!
+    password: "$2a$10$Q3dZA3BR9qCV/QKB3d3UEOGs3Bxl9NC1Jr8LVEtQkNHsrlH2fIFnq", // password: Test123!
     business_name: "Test Merchant",
     type: "merchant",
     created_at: new Date(),

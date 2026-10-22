@@ -47,24 +47,18 @@ router.post('/submit', authenticate, async (req, res) => {
       });
     }
 
-    // BUG G: No duplicate submission check
-    // Should prevent submitting the same invoice twice
-    // Missing validation below:
-    
-    // if (invoice.einvoice_status === 'submitted' || invoice.einvoice_status === 'accepted') {
-    //   return res.status(409).json({ 
-    //     error: 'Invoice already submitted to tax authority' 
-    //   });
-    // }
+    // BUG G FIX: Prevent duplicate submissions to tax authority
+    if (invoice.einvoice_status === 'submitted' || invoice.einvoice_status === 'accepted') {
+      return res.status(409).json({ 
+        error: 'Invoice already submitted to tax authority' 
+      });
+    }
 
     // Simulate tax authority submission
     const submission_id = `SUB-${uuidv4()}`;
     invoice.einvoice_status = 'submitted';
     invoice.einvoice_submission_id = submission_id;
     invoice.submitted_at = new Date();
-
-    // In real system, this would call external API
-    // await seqinoClient.submitInvoice(invoice);
 
     res.status(200).json({
       success: true,
